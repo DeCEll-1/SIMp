@@ -211,7 +211,7 @@ namespace SSSystemGenerator.Render
 
                 }
 
-                //Pen pen = new Pen(circle.BorderColor, circle.BorderThickness);
+                Pen pen = new Pen(circle.BorderColor, circle.BorderThickness);
 
                 SolidBrush brush = new SolidBrush(
                     circle.InteriorColor
@@ -230,14 +230,7 @@ namespace SSSystemGenerator.Render
                     g.FillEllipse(brush, circleRect);//draw a filled circle
                 }
 
-                //g.DrawEllipse(pen, circleRect);//draw the outline regardless if its filled or not
-
-                //if (Settings.DebugMode)
-                //{
-                //    pen.Color = Color.Green;
-
-                //    g.DrawRectangles(pen, new RectangleF[] { circleRect });
-                //}
+                g.DrawEllipse(pen, circleRect);//draw the outline regardless if its filled or not
 
 
             }

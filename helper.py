@@ -3,56 +3,82 @@ import numpy as np
 
 
 class helper:
-    def CheckPixelThreshold(thresholdValues, pixel, pixelCoordinateList):
+    def CheckPixelThreshold(pixel, pixelCoordinateList):
         result = ""
-
-        (pixelRThresh, pixelGThresh, pixelBThresh) = thresholdValues
 
         (pixelR, pixelG, pixelB, pixelX, pixelY) = pixel
 
-        if pixelR == 0 or pixelG == 0 or pixelB == 0:
+        if pixelR == 0 and pixelG == 0 and pixelB == 0:
+            if pixelR < 0 or pixelG < 0 or pixelB < 0:
+                print(pixelR + " - " + pixelG + " - " + pixelB)
             return None
-        # this?
+        #
 
-        rThreshPassed = False
-        gThreshPassed = False
-        bThreshPassed = False
+        redPixelValueWeWant = [255, 0, 0]
+        greenPixelValueWeWant = [0, 255, 0]
+        bluePixelValueWeWant = [0, 0, 255]
 
-        if pixelR > pixelRThresh:
-            rThreshPassed = True
-        if pixelG > pixelGThresh:
-            gThreshPassed = True
-        if pixelB > pixelBThresh:
-            bThreshPassed = True
+        cyanPixelValueWeWant = [0, 255, 255]
+        yellowPixelValueWeWant = [255, 255, 0]
+        purpPixelValueWeWant = [255, 0, 255]
 
-        if rThreshPassed and gThreshPassed and bThreshPassed:  #
+        whitePixelValueWeWant = [255, 255, 255]
+
+        if (
+            pixelR == whitePixelValueWeWant[0]
+            and pixelG == whitePixelValueWeWant[1]
+            and pixelB == whitePixelValueWeWant[2]
+        ):
             result = "White"
         #
 
-        elif not rThreshPassed and gThreshPassed and bThreshPassed:
+        elif (
+            pixelR == cyanPixelValueWeWant[0]
+            and pixelG == cyanPixelValueWeWant[1]
+            and pixelB == cyanPixelValueWeWant[2]
+        ):
             result = "Orange"
         #
 
-        elif rThreshPassed and gThreshPassed and not bThreshPassed:
+        elif (
+            pixelR == yellowPixelValueWeWant[0]
+            and pixelG == yellowPixelValueWeWant[1]
+            and pixelB == yellowPixelValueWeWant[2]
+        ):
             result = "Yellow"
         #
 
-        elif rThreshPassed and not gThreshPassed and bThreshPassed:
+        elif (
+            pixelR == purpPixelValueWeWant[0]
+            and pixelG == purpPixelValueWeWant[1]
+            and pixelB == purpPixelValueWeWant[2]
+        ):
             result = "Purple"
         #
 
-        elif rThreshPassed and not gThreshPassed and not bThreshPassed:
+        elif (
+            pixelR == redPixelValueWeWant[0]
+            and pixelG == redPixelValueWeWant[1]
+            and pixelB == redPixelValueWeWant[2]
+        ):
             result = "Red"
         #
 
-        elif not rThreshPassed and gThreshPassed and not bThreshPassed:
+        elif (
+            pixelR == greenPixelValueWeWant[0]
+            and pixelG == greenPixelValueWeWant[1]
+            and pixelB == greenPixelValueWeWant[2]
+        ):
             result = "Green"
         #
 
-        elif not rThreshPassed and not gThreshPassed and bThreshPassed:
+        elif (
+            pixelR == bluePixelValueWeWant[0]
+            and pixelG == bluePixelValueWeWant[1]
+            and pixelB == bluePixelValueWeWant[2]
+        ):
             result = "Blue"
         #
-
         else:
             return None
         #
@@ -77,24 +103,27 @@ class helper:
             i += i
             if i == 7:
                 return None
-            # if result == colorString:
+            #
+            # if result != colorString:
+            #     continue
+            # #
             if (
-                pixelX - 1 == coordinateX or pixelX - 2 == coordinateX
+                pixelX - 1 == coordinateX  # or pixelX - 2 == coordinateX
             ):  # if the pixel next to curr pixel is already saved
                 return None
             #
             elif (
-                pixelX + 1 == coordinateX or pixelX + 2 == coordinateX
+                pixelX + 1 == coordinateX  # or pixelX + 2 == coordinateX
             ):  # if the pixel next to curr pixel is already saved
                 return None
             #
             elif (
-                pixelY - 1 == coordinateY or pixelY - 2 == coordinateY
+                pixelY - 1 == coordinateY  # or pixelY - 2 == coordinateY
             ):  # if the pixel next to curr pixel is already saved
                 return None
             #
             elif (
-                pixelY + 1 == coordinateY or pixelY + 2 == coordinateY
+                pixelY + 1 == coordinateY  # or pixelY + 2 == coordinateY
             ):  # if the pixel next to curr pixel is already saved
                 return None
                 #

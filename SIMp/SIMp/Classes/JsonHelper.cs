@@ -32,11 +32,11 @@ namespace SSSystemGenerator.Classes
 
             foreach (object[] buffer in bufferList.SystemList)
             {
-                if (buffer[0].ToString() == "" || float.Parse(buffer[1].ToString()) < 0 || float.Parse(buffer[2].ToString()) < 0) continue;
+                if (buffer[0].ToString() == "" || int.Parse(buffer[1].ToString()) < 0 || int.Parse(buffer[2].ToString()) < 0) continue;
+                    
 
 
-
-                list.Add(new Systems(buffer[0].ToString(), new System.Drawing.PointF(float.Parse(buffer[1].ToString()), float.Parse(buffer[2].ToString()))));
+                list.Add(new Systems(buffer[0].ToString(), new System.Drawing.Point(int.Parse(buffer[1].ToString()), int.Parse(buffer[2].ToString()))));
 
             }
 

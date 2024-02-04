@@ -52,5 +52,10 @@ namespace SSSystemGenerator
                 this.Close();
             }
         }
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

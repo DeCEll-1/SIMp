@@ -46,17 +46,52 @@ namespace SSSystemGenerator.Forms
             //pnl_Map.MouseHover -= Pnl_Map_MouseMove;
             pb_Map.MouseUp -= Pnl_Map_MouseUp;
 
-            endLocation = new PointF(e.X, e.Y);
+            if (e.Button == MouseButtons.Right)
+            {
+                endLocation = new PointF(e.X, e.Y);
 
-            renderCenter = Helper.CombineCoordinates(renderCenter, Helper.SubtractCoordinates(endLocation, startLocation));//hope this works!
+                renderCenter = Helper.CombineCoordinates(renderCenter, Helper.SubtractCoordinates(endLocation, startLocation));//hope this works!
 
-            //center = endLocation;
+                //center = endLocation;
+
+
+            }
+            else if (e.Button == MouseButtons.Left)
+            {
+                Point mouseClickLocation = new Point(e.X, e.Y);
+
+
+                //offset 
+                mouseClickLocation = new Point((int)(mouseClickLocation.X - renderCenter.X), (int)(mouseClickLocation.Y - renderCenter.Y));
+
+                //mouseClickLocation = pb_Map.PointToScreen(mouseClickLocation);
+
+                mouseClickLocation = new Point((int)(mouseClickLocation.X / (zoomValue + 1)), (int)(mouseClickLocation.Y / (zoomValue + 1)));
+
+                foreach (Systems system in Statics.systemList)
+                {
+                    if (system.highLighted == true)
+                    {
+                        system.highLighted = false;
+                        break;
+                    }
+                }
+
+                foreach (Systems system in Statics.systemList)
+                {//https://www.jeffreythompson.org/collision-detection/point-circle.php
+                    //php is dead copium
+                    double distX = mouseClickLocation.X - system.location.X;
+                    double distY = mouseClickLocation.Y - system.location.Y;
+                    double distance = Math.Sqrt((distX * distX) + (distY * distY));
+                    if (distance <= system.radius)
+                    {//the click is in radius
+                        system.highLighted = true;
+                        break;
+                    }
+                }
+            }
 
             RefreshPanel();
-
-            //get current center
-            //
-
         }
 
         public bool moveEnabled { get; set; }
@@ -87,7 +122,8 @@ namespace SSSystemGenerator.Forms
 
         private void pnl_Map_MouseWheel(object sender, MouseEventArgs e)
         {//https://stackoverflow.com/questions/45325726/move-shapes-on-a-panel-by-mouse
-            //zoomValue = e.Delta > 0 ? zoomValue == 0 ? zoomValue = 1 : zoomValue * zoomValue : -(float)Math.Sqrt(zoomValue);
+         //zoomValue = e.Delta > 0 ? zoomValue == 0 ? zoomValue = 1 : zoomValue * zoomValue : -(float)Math.Sqrt(zoomValue);
+
             zoomValue += e.Delta > 0 ? 0.3f : -0.3f;
 
             try
@@ -134,14 +170,19 @@ namespace SSSystemGenerator.Forms
 
         private void pnl_Map_MouseDown(object sender, MouseEventArgs e)
         {
-            startLocation = new PointF(e.X, e.Y);
+            if (e.Button == MouseButtons.Right)
+            {
+                startLocation = new PointF(e.X, e.Y);
 
-            moveEnabled = true;
+                moveEnabled = true;
+                //pnl_Map.MouseMove += Pnl_Map_MouseMove;
+            }
+            else if (e.Button == MouseButtons.Left)
+            {
 
 
 
-
-            //pnl_Map.MouseMove += Pnl_Map_MouseMove;
+            }
             pb_Map.MouseUp += Pnl_Map_MouseUp;
         }
 
@@ -245,7 +286,11 @@ namespace SSSystemGenerator.Forms
             foreach (Systems system in Statics.systemList)
             {
 
-                circles.Add(new Circles(system.location, 1, system.systemColor, 0, system.systemColor, true));
+                Color colorToUse = system.systemColor;
+
+                if (system.highLighted) { colorToUse = system.highLightColor; }
+
+                circles.Add(new Circles(system.location, system.radius, colorToUse, system.radius, system.systemColor, true));
 
             }
 
@@ -309,7 +354,7 @@ namespace SSSystemGenerator.Forms
         {//https://stackoverflow.com/a/31464086
 
             float moveAmount = -100f;//im suppose to change the -s under but thats too much work so ill just - the move amount
-            //TODO: dont be lazy
+                                     //TODO: dont be lazy
 
             switch (keyData)
             {

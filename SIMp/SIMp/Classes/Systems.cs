@@ -11,42 +11,23 @@ namespace SIMp.Classes
     public class Systems
     {
 
-        public Systems(string systemColor, PointF location)
+        public Systems(string systemColor, Point location)
         {
             this.location = location;
 
-            switch (systemColor)
-            {
-                case "Red":
-                    this.systemColor = Color.Red;
-                    break;
-                case "Green":
-                    this.systemColor = Color.Green;
-                    break;
-                case "Blue":
-                    this.systemColor = Color.Blue;
-                    break;
 
-                case "Orange":
-                    this.systemColor = Color.Orange;
-                    break;
-                case "Yellow":
-                    this.systemColor = Color.Yellow;
-                    break;
-                case "Purple":
-                    this.systemColor = Color.Purple;
-                    break;
-
-                case "White":
-                    this.systemColor = Color.White;
-                    break;
-
-                default: throw new Exception("bruh");
-            }
         }
 
-        public Color systemColor { get; set; }
+        public int selectionRadius { get; set; } = 3;
 
-        public PointF location { get; set; }
+        public int radius { get; set; } = 1;
+
+        public Color systemColor { get; set; } = Color.FromArgb(255, 255, 255,255);
+
+        public Point location { get; set; }
+
+        public bool highLighted { get; set; } = false;
+
+        public Color highLightColor { get; set; } = Color.Red;
     }
 }
