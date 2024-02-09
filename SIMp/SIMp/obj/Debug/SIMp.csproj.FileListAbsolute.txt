@@ -26,3 +26,4 @@ C:\Users\poedx\OneDrive\Belgeler\GitHub\SIMp\SIMp\SIMp\obj\Debug\SIMp.csproj.Cor
 C:\Users\poedx\OneDrive\Belgeler\GitHub\SIMp\SIMp\SIMp\obj\Debug\SIMp.csproj.CopyComplete
 C:\Users\poedx\OneDrive\Belgeler\GitHub\SIMp\SIMp\SIMp\obj\Debug\SIMp.exe
 C:\Users\poedx\OneDrive\Belgeler\GitHub\SIMp\SIMp\SIMp\obj\Debug\SIMp.pdb
+C:\Users\poedx\OneDrive\Belgeler\GitHub\SIMp\SIMp\SIMp\obj\Debug\SIMp.Forms.SystemForm.resources

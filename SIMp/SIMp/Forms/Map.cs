@@ -1,4 +1,6 @@
 ﻿using SIMp.Classes;
+using SIMp.Forms;
+using SIMp.Render;
 using SSSystemGenerator.Classes;
 using SSSystemGenerator.Render;
 using System;
@@ -70,11 +72,15 @@ namespace SSSystemGenerator.Forms
 
                 foreach (Systems system in Statics.systemList)
                 {
-                    if (system.highLighted == true)
+                    system.highlights.ForEach(hl =>
                     {
-                        system.highLighted = false;
-                        break;
-                    }
+
+                        if (hl.type == hlTypeEnum.Selection)
+                        {
+                            hl.isActive = false;
+                        }
+
+                    });
                 }
 
                 foreach (Systems system in Statics.systemList)
@@ -85,7 +91,24 @@ namespace SSSystemGenerator.Forms
                     double distance = Math.Sqrt((distX * distX) + (distY * distY));
                     if (distance <= system.radius)
                     {//the click is in radius
-                        system.highLighted = true;
+                        system.highlights.FirstOrDefault(hl => hl.type == hlTypeEnum.Selection).isActive = true;
+
+                        SystemForm systemForm = new SystemForm();
+
+                        systemForm = (SystemForm)this.MdiParent.MdiChildren.FirstOrDefault(mdiKids =>
+                           mdiKids.GetType() == systemForm.GetType()
+                        );
+
+                        if (systemForm == null) systemForm = new SystemForm();
+
+                        systemForm.MdiParent = this.MdiParent;
+
+                        systemForm.Show();
+
+                        systemForm.BringToFront();
+
+                        systemForm.inputSystem(system);
+
                         break;
                     }
                 }
@@ -268,32 +291,80 @@ namespace SSSystemGenerator.Forms
                     ;
             }
             catch (Exception ex)
-            {//getting parameter name lenght System.ArgumentOutOfRangeException from zoom value
+            {//getting parameter name lenght System.ArgumentOutOfRangeException from zoom value // because its too much/too low
 
             }
 
 
 
 
-
-
-            PanelDrawer.rendererValues.Lines.Clear();
-
-            //PanelDrawer.rendererValues.Lines.AddRange(lines);
+            List<Lines> lines = new List<Lines>();
 
             List<Circles> circles = new List<Circles>();
 
+            List<Text> texts = new List<Text>();
+
+            Font ourFont = new Font(FontFamily.GenericSansSerif, 3, FontStyle.Regular);
+
+            SolidBrush brush = new SolidBrush(Color.White);
+
             foreach (Systems system in Statics.systemList)
             {
-
                 Color colorToUse = system.systemColor;
 
-                if (system.highLighted) { colorToUse = system.highLightColor; }
+                List<CircleBorders> borders = new List<CircleBorders>();
 
-                circles.Add(new Circles(system.location, system.radius, colorToUse, system.radius, system.systemColor, true));
+                system.highlights.ForEach(hl =>
+                {
+                    if (!hl.isActive) return;
+
+                    borders.Add(new CircleBorders(hl.radius, hl.color, hl.thickness));
+                });
+
+                circles.Add(new Circles(system.location, system.radius, borders, system.systemColor, true));
+
+                SystemData connectedSystemData = Statics.systemDataList.FirstOrDefault(s => s.ID == system.ID);
+
+                string textToWriteUnderSystem = connectedSystemData?.SystemName;
+
+                if (textToWriteUnderSystem == null) continue;
+
+                Text text = new Text(textToWriteUnderSystem, ourFont, brush, new Point(system.location.X, system.location.Y + system.radius));
+
+                texts.Add(text);
+
+                //now its time for the connection lines FUCK
+
+                // ok the plan is simple
+                // you get dat fuken name of the systems from the array of strings
+                // then get the system locations from those fuken systems 
+                // then make lines between this one and those
+                // FUCK
+                // İT WORKS ĞĞĞĞĞĞĞĞĞĞĞĞĞ
+
+
+                string[] placesThisSystemConnectsTo = Statics.Lines[connectedSystemData.SystemName];
+
+                for (int i = 0; i < placesThisSystemConnectsTo.Length; i++)
+                {
+                    SystemData data = Statics.systemDataList.FirstOrDefault(x => x.SystemName == placesThisSystemConnectsTo[i]);
+
+                    Systems connectedSystem = Statics.systemList.FirstOrDefault(x => x.ID == data.ID);
+
+                    if (connectedSystem == null) continue;
+
+                    lines.Add(new Lines(system.location, connectedSystem.location, 1, Statics.systemConnectionColor));
+                }
 
             }
 
+            PanelDrawer.rendererValues.Lines.Clear();
+
+            PanelDrawer.rendererValues.Lines.AddRange(lines);
+
+            PanelDrawer.rendererValues.texts.Clear();
+
+            PanelDrawer.rendererValues.texts.AddRange(texts);
 
             PanelDrawer.rendererValues.Circles.Clear();
 
@@ -325,19 +396,6 @@ namespace SSSystemGenerator.Forms
                 PanelDrawer.rendererValues = new RendererBaseClass();
             }
 
-            if (Settings.DebugMode)
-            {
-                Circles testcircle = new Circles(
-                        new Point(pB.Width / 2, pB.Height / 2),
-                        50,
-                        Color.Red,
-                        5,
-                        Color.Green,
-                        true
-                        );
-
-                PanelDrawer.rendererValues.Circles.Add(testcircle);
-            }
 
 
             //PanelDrawer.Render(sender, e);

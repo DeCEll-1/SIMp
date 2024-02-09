@@ -18,6 +18,7 @@ namespace SSSystemGenerator.Classes
         public static Color DARK_MODE_BORDER = Color.FromArgb(255, 43, 42, 51);
 
 
+
         [ObsoleteAttribute]
         public static Color DARK_MODE_HOVER_COLOR = Color.FromArgb(255, 75, 75, 84);//from firefox dark mode ui
 
@@ -32,6 +33,8 @@ namespace SSSystemGenerator.Classes
 
         [ObsoleteAttribute]
         public static Color LIGHT_MODE_HOVER_COLOR = Color.FromArgb(255, 255, 255, 255);
+
+
 
     }
 }
