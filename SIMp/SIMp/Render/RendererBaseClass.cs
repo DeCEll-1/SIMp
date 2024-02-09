@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SIMp.Render;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -15,6 +16,8 @@ namespace SSSystemGenerator.Render
         public List<Circles> Circles = new List<Circles>();
 
         public List<Lines> Lines = new List<Lines> { };
+
+        public List<Text> texts = new List<Text>();
 
         public float zoomValue = 1f;
 

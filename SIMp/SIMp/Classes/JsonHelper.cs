@@ -22,7 +22,7 @@ namespace SSSystemGenerator.Classes
 
             bufferListClass bufferList = new bufferListClass();
 
-            using (StreamReader sr = new StreamReader(Statics.JSONPath.FullName))
+            using (StreamReader sr = new StreamReader(Statics.SystemLocJsonDir.FullName))
             {
                 string json = sr.ReadToEnd();
 
@@ -33,7 +33,7 @@ namespace SSSystemGenerator.Classes
             foreach (object[] buffer in bufferList.SystemList)
             {
                 if (buffer[0].ToString() == "" || int.Parse(buffer[1].ToString()) < 0 || int.Parse(buffer[2].ToString()) < 0) continue;
-                    
+
 
 
                 list.Add(new Systems(buffer[0].ToString(), new System.Drawing.Point(int.Parse(buffer[1].ToString()), int.Parse(buffer[2].ToString()))));
@@ -43,10 +43,36 @@ namespace SSSystemGenerator.Classes
 
             return list;
         }
+
+        public static SystemData getSystemData(string ID)
+        {
+
+            if (Statics.systemDataList.Count == 0)
+            {
+                List<SystemData> systemDatas = new List<SystemData>();
+
+                using (StreamReader sr = new StreamReader(Statics.SystemDataJsonDir.FullName))
+                {
+                    string json = sr.ReadToEnd();
+
+                    systemDatas = JsonConvert.DeserializeObject<List<SystemData>>(json);
+                }
+
+                systemDatas.ForEach(data =>
+                {
+                    data.SeperateConnecteds();
+                });
+
+                Statics.systemDataList = systemDatas;
+            }
+
+            return Statics.systemDataList.FirstOrDefault(data => data.SystemName == ID);
+        }
     }
 
     public class bufferListClass
     {
         public object[][] SystemList;
     }
+
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SIMp.Render;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -12,12 +13,12 @@ namespace SSSystemGenerator.Render
     {
         public Circles() { }
 
-        public Circles(PointF center, int radius, Color borderColor, int borderThickness, Color fillColor, bool filled)
+        public Circles(PointF center, int radius, List<CircleBorders> borders, Color fillColor, bool filled)
         {
             Center = center;
             Radius = radius;
-            BorderColor = borderColor;
-            BorderThickness = borderThickness;
+            Borders = borders;
+            this.Borders = borders;
             InteriorColor = fillColor;
             Filled = filled;
 
@@ -39,8 +40,9 @@ namespace SSSystemGenerator.Render
         public PointF bottomRight { get; set; }
 
         public float Radius { get; }
-        public Color BorderColor { get; }
-        public int BorderThickness { get; }
+
+        public List<CircleBorders> Borders { get; set; }
+
         public Color InteriorColor { get; }
         public bool Filled { get; }
 

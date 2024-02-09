@@ -1,4 +1,5 @@
-﻿using SSSystemGenerator.Classes;
+﻿using SIMp.Render;
+using SSSystemGenerator.Classes;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -201,18 +202,6 @@ namespace SSSystemGenerator.Render
             foreach (Circles circle in rendererValues.Circles)
             {
 
-                if (circle.Center.X < 0 || circle.Center.Y < 0
-                    || circle.Center.X > Width || circle.Center.Y > Height
-                    )
-                {
-
-
-
-
-                }
-
-                Pen pen = new Pen(circle.BorderColor, circle.BorderThickness);
-
                 SolidBrush brush = new SolidBrush(
                     circle.InteriorColor
                     );
@@ -230,10 +219,40 @@ namespace SSSystemGenerator.Render
                     g.FillEllipse(brush, circleRect);//draw a filled circle
                 }
 
-                g.DrawEllipse(pen, circleRect);//draw the outline regardless if its filled or not
+                circle.Borders.ForEach(border =>
+                {
+
+
+                    //https://learn.microsoft.com/en-us/dotnet/api/system.drawing.rectanglef.-ctor?view=net-8.0
+                    RectangleF circleRectForBorder = new RectangleF(
+                        circle.Center.X - border.radius,        //The x-coordinate of the upper-left corner of the rectangle.
+                        circle.Center.Y - border.radius,        //The y-coordinate of the upper-left corner of the rectangle.
+                        Convert.ToInt32(border.radius * 2),     //The width of the rectangle.
+                        Convert.ToInt32(border.radius * 2)      //The height of the rectangle.
+                        );
+
+
+                    Pen pen = new Pen(border.color, border.thickness);
+
+
+                    g.DrawEllipse(pen, circleRectForBorder);//draw the outline regardless if its filled or not
+
+                });
+
+
 
 
             }
+
+            foreach (Text text in rendererValues.texts)
+            {
+                SizeF stringSize = g.MeasureString(text.text, text.font);
+
+                PointF locToUse = new PointF(text.loc.X - (stringSize.Width / 2), text.loc.Y);
+
+                g.DrawString(text.text, text.font, text.brush, locToUse);
+            }
+
 
         }
 

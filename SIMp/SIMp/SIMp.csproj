@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\Anomaly.cs" />
     <Compile Include="Classes\Colors.cs" />
     <Compile Include="Classes\Finals.cs" />
     <Compile Include="Classes\Helper.cs" />
@@ -56,6 +57,7 @@
     <Compile Include="Classes\Misc.cs" />
     <Compile Include="Classes\Settings.cs" />
     <Compile Include="Classes\Statics.cs" />
+    <Compile Include="Classes\SystemData.cs" />
     <Compile Include="Classes\Systems.cs" />
     <Compile Include="Forms\BaseMDIContainer.cs">
       <SubType>Form</SubType>
@@ -69,17 +71,29 @@
     <Compile Include="Forms\Map.designer.cs">
       <DependentUpon>Map.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\SystemForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\SystemForm.Designer.cs">
+      <DependentUpon>SystemForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Render\Circles.cs" />
+    <Compile Include="Render\CircleBorders.cs" />
+    <Compile Include="Render\Highlight.cs" />
     <Compile Include="Render\Lines.cs" />
     <Compile Include="Render\PBRenderer.cs" />
     <Compile Include="Render\RendererBaseClass.cs" />
+    <Compile Include="Render\Text.cs" />
     <EmbeddedResource Include="Forms\BaseMDIContainer.resx">
       <DependentUpon>BaseMDIContainer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Map.resx">
       <DependentUpon>Map.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\SystemForm.resx">
+      <DependentUpon>SystemForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -100,6 +114,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Resources\map.json" />
+    <None Include="Resources\SystemData.json" />
+    <None Include="Resources\SystemDataOutput.json" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

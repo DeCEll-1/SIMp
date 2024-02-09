@@ -1,4 +1,5 @@
-﻿using SSSystemGenerator.Classes;
+﻿using SIMp.Render;
+using SSSystemGenerator.Classes;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -15,19 +16,19 @@ namespace SIMp.Classes
         {
             this.location = location;
 
+            this.ID = location.X + "," + location.Y;
 
+            highlights.Add(new Highlight(Color.Red, 3, hlTypeEnum.Selection, 1));
         }
 
-        public int selectionRadius { get; set; } = 3;
+        public string ID { get; set; } // loc as string
+
+        public List<Highlight> highlights { get; set; } = new List<Highlight>();
 
         public int radius { get; set; } = 1;
 
-        public Color systemColor { get; set; } = Color.FromArgb(255, 255, 255,255);
+        public Color systemColor { get; set; } = Color.FromArgb(255, 255, 255, 255);
 
         public Point location { get; set; }
-
-        public bool highLighted { get; set; } = false;
-
-        public Color highLightColor { get; set; } = Color.Red;
     }
 }
